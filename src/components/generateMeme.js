@@ -64,19 +64,14 @@ const GenerateMeme = ({
         .then((data) => {
             setLoading(false);
             if (!data.success) {
-                toast({
-                    title: data.error_message,
-                    status: 'error',
-                    isClosable: true,
-                    position: 'bottom-right'
-                })
-                return;
+                throw new Error(data.error_message);
             }
             proceedToMinting(); // Go to minting form section
             updateMemeImage(data.data.url); // Update the meme image with the one the user edited
             updateMemeData(data); // Store result
         })
         .catch((err) => {
+            console.log(err)
             // In case of error, display a toast notification
             toast({
                 title: err.message,

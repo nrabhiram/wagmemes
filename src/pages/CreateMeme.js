@@ -14,8 +14,9 @@ import {
     useToast
 } from "@chakra-ui/react";
 import { VscDebugDisconnect } from 'react-icons/vsc'
+import { useHistory } from "react-router-dom";
 
-const CreateMeme = ({ handleChainSwitch, connectWallet }) => {
+const CreateMeme = ({ handleChainSwitch }) => {
     const [meme, setMeme] = useState(null); // meme template 
     const [loading, setLoading] = useState(false); // State for conditionally rendering loading indicator when fetching data asynchronously
     const [memeData, setMemeData] = useState(null); // data of the meme edited by the user
@@ -30,8 +31,12 @@ const CreateMeme = ({ handleChainSwitch, connectWallet }) => {
     // The meme id; used to fetch template info asynchronously
     const { id } = useParams();
 
+    // Get an object that provides the history
+    const history = useHistory();
+
     // Fetch data of selected meme template when page component is first rendered
     useEffect(() => {
+        const invalidTemplateErrorMessage = "This meme template doesn't exist. Please select a valid template."
         setLoading(true);
         fetch('https://api.imgflip.com/get_memes')
         .then(res => {
@@ -39,6 +44,9 @@ const CreateMeme = ({ handleChainSwitch, connectWallet }) => {
         })
         .then(data => {
             const meme = data.data.memes.find(meme => meme.id === id);
+            if (!meme) {
+                throw new Error(invalidTemplateErrorMessage);
+            }
             setMeme(meme);
             setLoading(false);
         })
@@ -50,6 +58,12 @@ const CreateMeme = ({ handleChainSwitch, connectWallet }) => {
                 position: 'bottom-right'
               })
             setLoading(false);
+            // Check if the error is caused because the meme template is invalid
+            if (err.message === invalidTemplateErrorMessage) {
+                // If meme template is invalid, redirect the user to the 404 page
+                history.push("/404");
+            }
+            
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -110,7 +124,7 @@ const CreateMeme = ({ handleChainSwitch, connectWallet }) => {
                     <Spinner />
                 </Box>
             )}
-            {meme && currentChainId === "0x4" && (
+            {meme && currentChainId === "0x4" && connectedAccount && (
                 <Box
                     w={{ base: "full", md: 11 / 12, xl: 9 / 12 }}
                     mx="auto"
@@ -131,12 +145,11 @@ const CreateMeme = ({ handleChainSwitch, connectWallet }) => {
                             image={image}
                             connectedAccount={connectedAccount}
                             goBack={returnToEditing}
-                            connectWallet={connectWallet}
                         />
                     }
                 </Box>
             )}
-            {currentChainId !== "0x4" && (
+            {(currentChainId !== "0x4" || !connectedAccount) && (
                 <Box
                     w={{ base: "full", md: 11 / 12, xl: 9 / 12 }}
                     mx="auto"
@@ -151,7 +164,6 @@ const CreateMeme = ({ handleChainSwitch, connectWallet }) => {
                         display="flex"
                         justifyContent={"center"}
                     >
-
                         <Button
                             as="a"
                             variant="solid"

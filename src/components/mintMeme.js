@@ -22,7 +22,6 @@ const MintMeme = ({
     image, 
     connectedAccount, 
     goBack,
-    connectWallet
 }) => {
     const [address, setAddress] = useState(connectedAccount); // The address the meme NFT will be minted to
     const [name, setName] = useState(meme.name); // The name of the meme NFT; defaults to the meme template's name
@@ -85,11 +84,12 @@ const MintMeme = ({
             if (ethereum) {
                 setLoading(true) // render loading indicator
                 if (!connectedAccount) {
-                    await connectWallet();
+                    throw new Error("Wallet is not connected. Click on the Connect button to continue.")
+                    
                 }
                 // Check whether the input address matches with an Ethereum address's general regex
                 if (!/^0x[a-fA-F0-9]{40}$/.test(tokenData.address)) {
-                    throw new Error("The address you typed is invalid");
+                    throw new Error("The receiver address is invalid");
                 }
 
                 const provider = new ethers.providers.Web3Provider(ethereum); // This is how we talk to Ethereum nodes

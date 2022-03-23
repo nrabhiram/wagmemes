@@ -7,6 +7,7 @@ import CreateMeme from './pages/CreateMeme';
 import { UserContext } from './context/UserContext';
 import { ChainContext } from './context/ChainContext';
 import { useToast } from '@chakra-ui/react';
+import NotFound from './pages/NotFound';
 
 function App() {
   const [currentChainId, setCurrentChainId] = useState(null); // The chain the user is currently connected to
@@ -179,12 +180,12 @@ function App() {
           <Route path="/create-meme/:id">
             <ChainContext.Provider value={chainProviderValue}>
               <UserContext.Provider value={userProviderValue}>
-                <CreateMeme 
-                  handleChainSwitch={handleChainSwitch}
-                  connectWallet={connectWallet}
-                />
+                <CreateMeme handleChainSwitch={handleChainSwitch} />
               </UserContext.Provider>
             </ChainContext.Provider>
+          </Route>
+          <Route path="*">
+            <NotFound />
           </Route>
         </Switch> 
       </Router>
