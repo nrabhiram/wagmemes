@@ -4,10 +4,10 @@ import Navbar from './components/navbar';
 import Home from './pages/Home';
 import ExploreMemes from './pages/ExploreMemes';
 import CreateMeme from './pages/CreateMeme';
+import NotFound from './pages/NotFound';
 import { UserContext } from './context/UserContext';
 import { ChainContext } from './context/ChainContext';
 import { useToast } from '@chakra-ui/react';
-import NotFound from './pages/NotFound';
 
 function App() {
   const [currentChainId, setCurrentChainId] = useState(null); // The chain the user is currently connected to
@@ -174,7 +174,7 @@ function App() {
               <Home handleChainSwitch={handleChainSwitch} />
             </ChainContext.Provider>
           </Route>
-          <Route path="/explore-memes">
+          <Route exact path="/explore-memes">
             <ExploreMemes />
           </Route>
           <Route path="/create-meme/:id">

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from './../context/UserContext'
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import GenerateMeme from "../components/generateMeme";
 import MintMeme from "../components/mintMeme";
 import { ChainContext } from "../context/ChainContext";
@@ -14,7 +14,6 @@ import {
     useToast
 } from "@chakra-ui/react";
 import { VscDebugDisconnect } from 'react-icons/vsc'
-import { useHistory } from "react-router-dom";
 
 const CreateMeme = ({ handleChainSwitch }) => {
     const [meme, setMeme] = useState(null); // meme template 
@@ -51,19 +50,19 @@ const CreateMeme = ({ handleChainSwitch }) => {
             setLoading(false);
         })
         .catch((err) => {
-            toast({
-                title: err.message,
-                status: 'error',
-                isClosable: true,
-                position: 'bottom-right'
-              })
             setLoading(false);
             // Check if the error is caused because the meme template is invalid
             if (err.message === invalidTemplateErrorMessage) {
                 // If meme template is invalid, redirect the user to the 404 page
                 history.push("/404");
+                return;
             }
-            
+            toast({
+                title: err.message,
+                status: 'error',
+                isClosable: true,
+                position: 'bottom-right'
+            })
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
