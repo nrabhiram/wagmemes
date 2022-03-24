@@ -65,7 +65,7 @@ const CreateMeme = ({ handleChainSwitch }) => {
             })
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [id])
 
     // Update the form stage so that you can mint the meme NFT
     const proceedToMinting = () => {
