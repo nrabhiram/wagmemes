@@ -43,16 +43,6 @@ const CreateMeme = ({ handleChainSwitch }) => {
         })
         .then(data => {
             const meme = data.data.memes.find(meme => meme.id === id);
-            let memeId;
-            
-            console.log(id);
-            data.data.memes.forEach((meme) => {
-                if (meme.id === id) {
-                    memeId = id;
-                    // return;
-                }
-            })
-            console.log(memeId);
             if (!meme) {
                 throw new Error(invalidTemplateErrorMessage);
             }
@@ -60,11 +50,13 @@ const CreateMeme = ({ handleChainSwitch }) => {
             setLoading(false);
         })
         .catch((err) => {
+            console.log(err)
+
             setLoading(false);
             // Check if the error is caused because the meme template is invalid
             if (err.message === invalidTemplateErrorMessage) {
                 // If meme template is invalid, redirect the user to the 404 page
-                history.push("/404");
+                history.push("/explore-memes");
                 return;
             }
             toast({
