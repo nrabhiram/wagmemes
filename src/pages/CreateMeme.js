@@ -44,7 +44,8 @@ const CreateMeme = ({ handleChainSwitch }) => {
         .then(data => {
             const meme = data.data.memes.find(meme => meme.id === id);
             if (!meme) {
-                throw new Error(invalidTemplateErrorMessage);
+                // throw new Error(invalidTemplateErrorMessage);
+                history.push("/explore-memes");
             }
             setMeme(meme);
             setLoading(false);
