@@ -21,7 +21,6 @@ const CreateMeme = ({ handleChainSwitch }) => {
     const [memeData, setMemeData] = useState(null); // data of the meme edited by the user
     const [formStage, setFormStage] = useState(0); // determines if the user is currently editing or minting the meme
     const [image, setImage] = useState(null); // Edited meme image displayed to the user
-    const [ID, setID] = useState(null);
 
     const toast = useToast();
 
@@ -29,59 +28,44 @@ const CreateMeme = ({ handleChainSwitch }) => {
     const {currentChainId} = useContext(ChainContext);
 
     // The meme id; used to fetch template info asynchronously
-    // const { id } = useParams();
-
-    useEffect(() => {
-        const urlParts = window.location.href.split("/");
-        let id;
-        if (urlParts[urlParts.length - 1]) {
-            id = urlParts[urlParts.length - 1]
-        } else {
-            id = urlParts[urlParts.length - 2]
-        }
-        setID(id);
-    }, [])
+    const { id } = useParams();
 
     // Get an object that provides the history
     const history = useHistory();
 
     // Fetch data of selected meme template when page component is first rendered
     useEffect(() => {
-        if (ID) {
-            const invalidTemplateErrorMessage = "This meme template doesn't exist. Please select a valid template."
-            setLoading(true);
-            fetch('https://api.imgflip.com/get_memes')
-            .then(res => {
-                return res.json();
-            })
-            .then(data => {
-                const meme = data.data.memes.find(meme => meme.id === ID);
-                if (!meme) {
-                    throw new Error(invalidTemplateErrorMessage);
-                }
-                setMeme(meme);
-                setLoading(false);
-            })
-            .catch((err) => {
-                setLoading(false);
-                // Check if the error is caused because the meme template is invalid
-                if (err.message === invalidTemplateErrorMessage) {
-                    // If meme template is invalid, redirect the user to the 404 page
-                    history.push("/404");
-                    return;
-                }
-                toast({
-                    title: err.message,
-                    status: 'error',
-                    isClosable: true,
-                    position: 'bottom-right'
-                })
-            })
-        }
+        const invalidTemplateErrorMessage = "This meme template doesn't exist. Please select a valid template."
+        setLoading(true);
+        fetch('https://api.imgflip.com/get_memes')
+        .then(res => {
+            return res.json();
+        })
+        .then(data => {
+            const meme = data.data.memes.find(meme => meme.id === id);
+            if (!meme) {
+                throw new Error(invalidTemplateErrorMessage);
+            }
+            setMeme(meme);
+            setLoading(false);
+        })
+        .catch((err) => {
+            setLoading(false);
+            // Check if the error is caused because the meme template is invalid
+            if (err.message === invalidTemplateErrorMessage) {
+                // If meme template is invalid, redirect the user to the 404 page
+                history.push("/404");
+                // return;
+            }
+            // toast({
+            //     title: err.message,
+            //     status: 'error',
+            //     isClosable: true,
+            //     position: 'bottom-right'
+            // })
+        })
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ID])
-
-
+    }, [])
 
     // Update the form stage so that you can mint the meme NFT
     const proceedToMinting = () => {
