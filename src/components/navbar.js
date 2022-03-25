@@ -18,6 +18,7 @@ import {
   useBreakpointValue,
   useDisclosure,
   Tooltip,
+  Image,
 } from '@chakra-ui/react';
 import {
   HamburgerIcon,
@@ -107,14 +108,11 @@ import { FaWallet, FaEthereum } from 'react-icons/fa';
               to="/"
               style={{textDecoration: "none"}}
             >
-              <Text
-                textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-                fontFamily={'heading'}
-                fontWeight={'700'}
-                color={useColorModeValue('gray.800', 'white')}
-              >
-                WAGMemes
-              </Text>
+              <Image 
+                src='/images/logo.png'
+                alt='logo'
+                maxW='60px'
+              />
             </Link>
             <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
               <DesktopNav />

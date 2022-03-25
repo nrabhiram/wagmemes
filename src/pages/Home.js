@@ -56,7 +56,7 @@ const Home = ({ handleChainSwitch }) => {
                     fontSize={{ base: "lg", md: "xl" }}
                     color={useColorModeValue("gray.600", "gray.300")}
                 >
-                    Airdrop a meme to your fren's wallet for free. WAGMemes is an NFT minting site for memes! Mint your favourite memes or gift one to your best friends and loved ones.
+                    Why invest in terrible NFTs when you can make them? Mint a meme to your own wallet or airdrop it to your frens! We're all going to make memes!
                 </Text>
                 <Stack
                     direction={{ base: "column", sm: "row" }}

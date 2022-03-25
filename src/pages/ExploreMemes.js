@@ -67,7 +67,7 @@ const ExploreMemes = () => {
                 >
                     Explore Memes
                 </Text>
-                <Text>Browse through the available meme templates and select the one you would like to edit!</Text>
+                <Text>Browse through the available meme templates and select the one you would like to edit.</Text>
             </Box>
             <Box
                 my={4} 
@@ -81,7 +81,7 @@ const ExploreMemes = () => {
                     />
                     <Input 
                         onChange={(e) => handleSearchQueryChange(e)} 
-                        placeholder="Search for your favourite meme here!"
+                        placeholder="Search for your favourite meme here..."
                     />
                 </InputGroup>
             </Box>
@@ -92,7 +92,7 @@ const ExploreMemes = () => {
                     justifyContent="center" 
                     alignItems={"center"}
                 >
-                    <Spinner />
+                    <Spinner color="purple" />
                 </Box>
             )}
             {memes && (

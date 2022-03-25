@@ -182,7 +182,7 @@ const MintMeme = ({
                     <Image src={image} objectFit='cover' />
                 </Box>    
             )}
-            <Stack spacing={8}>
+            <Stack spacing={8} my="4">
                 <FormControl>
                     <FormLabel>Gift Receiver Address</FormLabel>
                     <Input

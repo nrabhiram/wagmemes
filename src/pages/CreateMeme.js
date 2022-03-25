@@ -111,7 +111,7 @@ const CreateMeme = ({ handleChainSwitch }) => {
                 >
                     Create Meme
                 </Text>
-                <Text>Browse through the available meme templates and select the one you would like to edit!</Text>
+                <Text>Edit the template with funny captions and mint it as an NFT.</Text>
             </Box>
             {loading && (
                 <Box 
@@ -120,7 +120,7 @@ const CreateMeme = ({ handleChainSwitch }) => {
                     justifyContent="center" 
                     alignItems={"center"}
                 >
-                    <Spinner />
+                    <Spinner color="purple" />
                 </Box>
             )}
             {meme && currentChainId === "0x4" && connectedAccount && (
